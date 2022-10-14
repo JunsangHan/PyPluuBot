@@ -2,7 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
-from ex.PostTestData import PostTestData
+from ex.post_test_data import PostTestData
 import sqlite3
 
 # DB connection

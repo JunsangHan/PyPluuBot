@@ -1,6 +1,7 @@
 # https://androidstudio.googleblog.com/
 import scraper
 import date_util as date
+from sender.sender import Sender
 from data import PostData
 from database.database import Database
 
@@ -17,21 +18,22 @@ class AndroidStudioScraper(scraper.Scraper):
             return
 
         db = Database()
+        sender = Sender()
         post_list = self.soup.find_all("div", {"class": "post"})
         post_data_set = []
         for post_data in post_list:
-            url_ahref = post_data.find("a")["href"]
+            url_link = post_data.find("a")["href"]
             title = post_data.find("a").string.replace("\n", "")
+            post_data_set.append(PostData(url_link, title))
 
-            post_data_set.append(PostData(url_ahref, title))
-
-            result = db.select(url_ahref)
+            result = db.select(url_link)
             if result is None:
                 print("DB has not this url")
-                # TODO #1 send this post to Agit.
-                # TODO #2 insert this post to database after sending it.
+                # TODO changer for your sender(e.g. Slack, Telegram..).
+                sender.send_message(str(title) + "\n" + str(url_link), "YOUR_RECEIVER_URL")
+                db.insert(url_link, title)
             else:
                 print("DB already has this url")
 
-            print("URL = " + str(url_ahref) + "\n" + "TITLE = " + title)
+            print("URL = " + str(url_link) + "\n" + "TITLE = " + title)
 
