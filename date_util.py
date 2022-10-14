@@ -11,7 +11,6 @@ def make_url_with_current_year_month(url_text):
         month_text = str(month)
 
     url = url_text + year_text + "/" + month_text + "/"
-    print(url)
     return url
 
 

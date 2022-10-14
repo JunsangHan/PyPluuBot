@@ -1,5 +1,5 @@
 # https://android-developers.googleblog.com/
-import scraper
+from scrapers import scraper
 import date_util as date
 from database.database import Database
 import sender.agit_sender as agit

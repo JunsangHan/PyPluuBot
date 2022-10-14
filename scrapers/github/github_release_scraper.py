@@ -1,27 +1,29 @@
-# https://androidstudio.googleblog.com/
+"""
+https://github.com/google/ksp/releases/
+https://github.com/google/dagger/releases/
+https://github.com/gradle/gradle/releases/
+"""
 from scrapers import scraper
-import date_util as date
 from database.database import Database
 import sender.agit_sender as agit
 
 
-class AndroidStudioScraper(scraper.Scraper):
+class GithubReleaseScraper(scraper.Scraper):
     def __init__(self, url):
         super().__init__(url)
-        self.url = date.make_url_with_current_year_month(self.url)
 
     def parse(self):
         super().parse()
-        print("AndroidStudioScraper : " + str(self.url))
+        print("GithubReleaseScraper : " + str(self.url))
         if self.soup is None:
             print("error: self.soup is None")
             return
 
         db = Database()
-        posts = self.soup.find_all("div", {"class": "post"})
-        for post in posts:
-            url_link = post.find("a")["href"]
-            title = post.find("a").string.replace("\n", "")
+        items = self.soup.find_all("a", {"class": "Link--primary"})
+        for item in items:
+            url_link = "https://github.com" + item["href"]
+            title = item.string
 
             result = db.select(url_link)
             if result is None:

@@ -1,5 +1,5 @@
 # https://blog.jetbrains.com/kotlin/
-import scraper
+from scrapers import scraper
 import date_util as date
 from data import PostData
 from database.database import Database
