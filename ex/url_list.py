@@ -1,6 +1,6 @@
 # https://androidstudio.googleblog.com/
-# https://blog.jetbrains.com/kotlin/
 # https://android-developers.googleblog.com/
+# https://blog.jetbrains.com/kotlin/
 # https://androidweekly.net/
 
 # https://github.com/google/ksp/releases/

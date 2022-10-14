@@ -2,7 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
-from ex.PostData import PostData
+from ex.PostTestData import PostTestData
 import sqlite3
 
 # DB connection
@@ -35,7 +35,7 @@ post_data_set = []
 for post_data in post_list:
     url_ahref = post_data.find("a")["href"]
     title = post_data.find("a").string.replace("\n", "")
-    post_data_set.append(PostData(url_ahref, title))
+    post_data_set.append(PostTestData(url_ahref, title))
 
     cur.execute("SELECT * FROM PostDataTable WHERE url = ?", (url_ahref, ))
     result = cur.fetchone()
