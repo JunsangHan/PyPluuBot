@@ -3,6 +3,7 @@ from scrapers.google.android_developers_scraper import AndroidDevelopersScraper
 from scrapers.jetbrains.jetbrains_kotlin_scraper import JetbrainsKotlinScraper
 from scrapers.github.github_release_scraper import GithubReleaseScraper
 import sender.agit_sender as agit
+import urllib3
 
 SCRAPERS = [
     AndroidStudioScraper("https://androidstudio.googleblog.com/"),
@@ -35,6 +36,7 @@ def start():
         send_msg = send_msg + "\n" + str(content) + "\n"
 
     print(send_msg)
-    # TODO agit.send_msg
+    urllib3.disable_warnings()
+    agit.send_message(send_msg)
 
 
