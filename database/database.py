@@ -7,6 +7,7 @@ class Database:
     def __init__(self):
         self.conn = sqlite3.connect("Post.db")
         self.cur = self.conn.cursor()
+        self.create_table()
 
     def create_table(self):
         self.cur.execute("CREATE TABLE IF NOT EXISTS post_table (url text primary key, title text, date text);")
@@ -16,8 +17,8 @@ class Database:
         self.conn.close()
 
     def select(self, url):
-        result = self.cur.execute("SELECT * FROM post_table WHERE url = ?", (url,))
-        return result
+        self.cur.execute("SELECT * FROM post_table WHERE url = ?", (url,))
+        return self.cur.fetchone()
 
     def select_all(self):
         return self.cur.execute("SELECT * FROM post_table")
@@ -34,4 +35,4 @@ class Database:
             )
             self.conn.commit()
         except sqlite3.IntegrityError:
-            print("Insert error")
+            print("error: inserting data is failed")
