@@ -1,9 +1,8 @@
 # https://androidstudio.googleblog.com/
 import scraper
 import date_util as date
-from sender.sender import Sender
-from data import PostData
 from database.database import Database
+import sender.agit_sender as agit
 
 
 class AndroidStudioScraper(scraper.Scraper):
@@ -13,27 +12,23 @@ class AndroidStudioScraper(scraper.Scraper):
 
     def parse(self):
         super().parse()
+        print("AndroidStudioScraper : " + str(self.url))
         if self.soup is None:
             print("error: self.soup is None")
             return
 
         db = Database()
-        sender = Sender()
-        post_list = self.soup.find_all("div", {"class": "post"})
-        post_data_set = []
-        for post_data in post_list:
-            url_link = post_data.find("a")["href"]
-            title = post_data.find("a").string.replace("\n", "")
-            post_data_set.append(PostData(url_link, title))
+        posts = self.soup.find_all("div", {"class": "post"})
+        for post in posts:
+            url_link = post.find("a")["href"]
+            title = post.find("a").string.replace("\n", "")
 
             result = db.select(url_link)
             if result is None:
-                print("DB has not this url")
-                # TODO changer for your sender(e.g. Slack, Telegram..).
-                sender.send_message(str(title) + "\n" + str(url_link), "YOUR_RECEIVER_URL")
+                print("DB has NOT this url")
+                self.content_msg.append(agit.apply_h2(title) + url_link)
                 db.insert(url_link, title)
             else:
                 print("DB already has this url")
 
-            print("URL = " + str(url_link) + "\n" + "TITLE = " + title)
-
+        return self.content_msg

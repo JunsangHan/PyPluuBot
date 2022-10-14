@@ -36,3 +36,7 @@ class Database:
             self.conn.commit()
         except sqlite3.IntegrityError:
             print("error: inserting data is failed")
+
+    def delete(self):
+        self.cur.execute("DELETE FROM post_table")
+        self.conn.commit()

@@ -31,13 +31,6 @@ print("- Latest posts- ")
 cols = soup.find_all("div", {"class": "col"})
 for col in cols:
     ahref = col.find("a")["href"]
+    title = col.find("h3").string
     print(ahref)
-
-
-# post_list = soup.find_all("div", {"class": "promo__row"})
-# print(post_list)
-# for post in post_list:
-#     ahref = post.find("a")["href"]
-#     print(ahref)
-#     print(post.find("h1").string)
-#
+    print(title)

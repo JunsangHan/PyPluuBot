@@ -7,6 +7,7 @@ class Scraper:
     def __init__(self, url):
         self.soup = None
         self.url = url
+        self.content_msg = []
 
     def request_html(self):
         response = requests.get(self.url)

@@ -1,27 +1,38 @@
-# https://android-developers.googleblog.com/
+# https://blog.jetbrains.com/kotlin/
 import scraper
 import date_util as date
+from data import PostData
 from database.database import Database
 import sender.agit_sender as agit
 
 
-class AndroidDevelopersScraper(scraper.Scraper):
+class JetbrainsKotlinScraper(scraper.Scraper):
     def __init__(self, url):
         super().__init__(url)
         self.url = date.make_url_with_current_year_month(self.url)
 
     def parse(self):
         super().parse()
-        print("AndroidDevelopersScraper : " + str(self.url))
+        print("JetbrainsKotlinScraper : " + str(self.url))
         if self.soup is None:
             print("error: self.soup is None")
             return
 
         db = Database()
-        posts = self.soup.find_all("div", {"class": "post"})
+        posts = []
+        new_post = self.soup.find("div", {"class": "promo__row"})
+        if new_post is not None:
+            posts.append(PostData(new_post.find("a")["href"], new_post.find("h1").string.replace("\n", "")))
+
+        columns = self.soup.find_all("div", {"class": "col"})
+        for col in columns:
+            url_link = col.find("a")["href"]
+            title = col.find("h3").string.replace("\n", "")
+            posts.append(PostData(url_link, title))
+
         for post in posts:
-            url_link = post.find("a")["href"]
-            title = post.find("a").string.replace("\n", "")
+            url_link = post.url
+            title = post.title
 
             result = db.select(url_link)
             if result is None:
@@ -32,4 +43,3 @@ class AndroidDevelopersScraper(scraper.Scraper):
                 print("DB already has this url")
 
         return self.content_msg
-
