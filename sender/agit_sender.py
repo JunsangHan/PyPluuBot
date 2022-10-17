@@ -1,11 +1,14 @@
+import os
 import configparser
 import requests
 import json
 
 _headers = {'Content-Type': 'Application/json'}
 
+base_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(base_dir)
 config = configparser.ConfigParser()
-config.read("config.ini")
+config.read("../config.ini")
 agit_url = config["AGIT"]["test"]
 
 
