@@ -1,9 +1,12 @@
+import configparser
 import requests
-
 import json
 
 _headers = {'Content-Type': 'Application/json'}
-agit_url = "YOUR_WEB_HOOK_URL"
+
+config = configparser.ConfigParser()
+config.read("config.ini")
+agit_url = config["AGIT"]["test"]
 
 
 def send_message(message, webhook_url=agit_url, headers=None):
