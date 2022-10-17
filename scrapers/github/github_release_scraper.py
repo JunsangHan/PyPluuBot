@@ -9,12 +9,14 @@ import sender.agit_sender as agit
 
 
 class GithubReleaseScraper(scraper.Scraper):
-    def __init__(self, url):
+    def __init__(self, url, title_prefix=""):
         super().__init__(url)
+        self.title_prefix = title_prefix
 
     def parse(self):
         super().parse()
         print("GithubReleaseScraper : " + str(self.url))
+        print("TITLE_PREFIX = " + self.title_prefix)
         if self.soup is None:
             print("error: self.soup is None")
             return
@@ -23,7 +25,10 @@ class GithubReleaseScraper(scraper.Scraper):
         items = self.soup.find_all("a", {"class": "Link--primary"})
         for item in items:
             url_link = "https://github.com" + item["href"]
-            title = item.string
+            if not self.title_prefix:
+                title = "[Github][Releases]" + " : " + item.string
+            else:
+                title = "[Github][Releases]" + "[" + self.title_prefix + "]" + " : " + item.string
 
             result = db.select(url_link)
             if result is None:
