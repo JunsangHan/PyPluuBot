@@ -4,6 +4,7 @@ from scrapers.jetbrains.jetbrains_kotlin_scraper import JetbrainsKotlinScraper
 from scrapers.github.github_release_scraper import GithubReleaseScraper
 import sender.agit_sender as agit
 import urllib3
+import datetime
 
 SCRAPERS = [
     AndroidStudioScraper("https://androidstudio.googleblog.com/"),
@@ -20,7 +21,7 @@ DESCRIPTION_TEXT = agit.apply_hash_tag("Android") + " " + agit.apply_hash_tag("A
 
 
 def start():
-    print("PluuBot Start")
+    print("PluuBot Start " + str(datetime.datetime.now()))
     contents = []
     for scraper in SCRAPERS:
         messages = scraper.parse()

@@ -25,11 +25,9 @@ class AndroidDevelopersScraper(scraper.Scraper):
 
             result = db.select(url_link)
             if result is None:
-                print("DB has NOT this url")
+                print("DB inserts this url : " + url_link)
                 self.content_msg.append(agit.apply_h2(title) + url_link)
                 db.insert(url_link, title)
-            else:
-                print("DB already has this url")
 
         return self.content_msg
 
