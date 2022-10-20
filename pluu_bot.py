@@ -41,6 +41,6 @@ def start():
 
     print(send_msg)
     urllib3.disable_warnings()
-    # agit.send_message(send_msg)
+    agit.send_message(send_msg)
 
 
