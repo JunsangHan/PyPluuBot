@@ -13,7 +13,9 @@ SCRAPERS = [
     GithubReleaseScraper("https://github.com/google/ksp/releases/", "Ksp"),
     GithubReleaseScraper("https://github.com/google/dagger/releases/", "Dagger"),
     GithubReleaseScraper("https://github.com/gradle/gradle/releases/", "Gradle"),
-    GithubReleaseScraper("https://github.com/bumptech/glide/releases", "Glide"),
+    GithubReleaseScraper("https://github.com/bumptech/glide/releases/", "Glide"),
+    GithubReleaseScraper("https://github.com/material-components/material-components-android/releases/",
+                         "Material Components Android"),
 ]
 
 TITLE_TEXT = agit.apply_h1("밤새 올라온 안드로이드 소식 wit Pluu Bot")
@@ -39,6 +41,6 @@ def start():
 
     print(send_msg)
     urllib3.disable_warnings()
-    agit.send_message(send_msg)
+    # agit.send_message(send_msg)
 
 
